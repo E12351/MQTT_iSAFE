@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         txt.setText("Started");
         Intent i = new Intent(this,service.class);
         startService(i);
-        //service.connect("192.168.8.100");
+        service.connect("192.168.8.101");
     }
     public  void send (View view){
         //service.pub("test","OK");

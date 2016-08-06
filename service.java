@@ -38,7 +38,7 @@ public class service extends Service {
         try {
             MemoryPersistence persistance = new MemoryPersistence();
 
-            client = new MqttClient("tcp://" + "192.168.8.100" + ":1883", "Amila", persistance);
+            client = new MqttClient("tcp://" + "192.168.8.101" + ":1883", "Amila", persistance);
 
             client.setCallback(new MqttCallback(){
                 @Override
@@ -87,7 +87,7 @@ public class service extends Service {
         Toast.makeText(this,"service is destroyed",Toast.LENGTH_LONG).show();
     }
 
-    /*public static boolean connect(String url) {
+    public static boolean connect(String url) {
         try {
             MemoryPersistence persistance = new MemoryPersistence();
             client = new MqttClient("tcp://" + url + ":1883", "client1", persistance);
@@ -101,7 +101,7 @@ public class service extends Service {
             e.printStackTrace();
         }
         return false;
-    }*/
+    }
 
     public static boolean pub(String topic, String payload) {
         MqttMessage message = new MqttMessage(payload.getBytes());
