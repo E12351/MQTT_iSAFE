@@ -48,15 +48,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void start_service(View view) {
         txt.setText("Started");
-        Intent i = new Intent(this,service.class);
-        startService(i);
-        //service.connect("192.168.8.101");
+        if(service.client == null) {
+            Intent i = new Intent(this, service.class);
+            startService(i);
+            //service.connect("192.168.8.101");
+        }
     }
     public  void send (View view){
-        //service.pub("test","OK");
-        service.pub("test","OK");
+        MQTT_Methods.pub("test","OK",service.client);
     }
 
+    public void stop(View view){
+        if(service.client != null) {
+            Intent i = new Intent(this, service.class);
+            stopService(i);
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

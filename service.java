@@ -4,6 +4,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.Message;
+import android.provider.Settings;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -16,8 +18,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class service extends Service {
 
-    public MqttClient mqttClient;
-    private static MqttClient client;
+    public static MqttClient client;
     public static String messageBody;
 
     @Override
@@ -70,7 +71,9 @@ public class service extends Service {
 
         } catch (MqttException e) {
             Toast.makeText(getApplicationContext(), "Something went wrong!" + e.getMessage(), Toast.LENGTH_LONG).show();
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println(e);
+            Log.w("MyClassName", e);
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -78,42 +81,15 @@ public class service extends Service {
     @Override
     public void onDestroy() {
         try {
-            client.disconnect(0);
-        } catch (MqttException e) {
+            //client.disconnect(0);
+        } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Something went wrong!" + e.getMessage(), Toast.LENGTH_LONG).show();
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println(e);
         }
         super.onDestroy();
         Toast.makeText(this,"service is destroyed",Toast.LENGTH_LONG).show();
     }
 
-    public static boolean connect(String url) {
-        try {
-            MemoryPersistence persistance = new MemoryPersistence();
-            client = new MqttClient("tcp://" + url + ":1883", "client1", persistance);
-            client.connect();
-
-
-            return true;
-        } catch (MqttException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public static boolean pub(String topic, String payload) {
-        MqttMessage message = new MqttMessage(payload.getBytes());
-        try {
-            client.publish(topic, message);
-            return true;
-        } catch (MqttPersistenceException e) {
-            e.printStackTrace();
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 
 }
