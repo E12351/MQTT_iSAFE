@@ -38,11 +38,12 @@ public class service extends Service {
         try {
             MemoryPersistence persistance = new MemoryPersistence();
 
-            client = new MqttClient("tcp://" + "192.168.8.101" + ":1883", "Amila", persistance);
+            client = new MqttClient("tcp://" + "192.168.8.100" + ":1883", "Amila", persistance);
 
             client.setCallback(new MqttCallback(){
                 @Override
                 public void connectionLost(Throwable throwable) {
+
                 }
 
                 @Override
@@ -61,11 +62,12 @@ public class service extends Service {
                 }
             });
             client.connect();
+            //client.setConnectTimeout(7000);
 
             Toast.makeText(this,"connected",Toast.LENGTH_LONG).show();
 
             //Subscribe to all subtopics of homeautomation
-            client.subscribe("test");
+            //client.subscribe("test");
             Toast.makeText(this,"subcribed.",Toast.LENGTH_LONG).show();
 
         } catch (MqttException e) {
@@ -88,6 +90,19 @@ public class service extends Service {
         }
         super.onDestroy();
         Toast.makeText(this,"service is destroyed",Toast.LENGTH_LONG).show();
+    }
+    public static boolean pub(String topic, String payload) {
+        MqttMessage message = new MqttMessage(payload.getBytes());
+        try {
+            client.publish(topic, message);
+            return true;
+        } catch (Exception e) {
+            //e.printStackTrace();
+            System.out.println(e);
+            Log.w("MyClassName", e);
+        }
+
+        return false;
     }
 
 

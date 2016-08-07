@@ -1,5 +1,6 @@
 package com.example.anjeldethwingz.mqtt_isafe;
 
+import android.util.Log;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -31,13 +32,12 @@ public class MQTT_Methods {
         try {
             client.publish(topic, message);
             return true;
-        } catch (MqttPersistenceException e) {
+        } catch (Exception e) {
             //e.printStackTrace();
             System.out.println(e);
-        } catch (MqttException e) {
-            //e.printStackTrace();
-            System.out.println(e);
+            Log.w("MyClassName", e);
         }
+
         return false;
     }
 }

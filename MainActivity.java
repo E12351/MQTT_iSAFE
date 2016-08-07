@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public  void send (View view){
-        MQTT_Methods.pub("test","OK",service.client);
+        service.pub("test","OK");
     }
 
     public void stop(View view){
